@@ -1,4 +1,4 @@
-create_confusion_plot <- function(pred_train, pred_test, plot_title) {
+confusion_plot <- function(pred_train, pred_test, plot_title) {
   # Konfusionsdaten berechnen
   df_train <- caret::confusionMatrix(
     pred_train %>%
@@ -43,7 +43,8 @@ create_confusion_plot <- function(pred_train, pred_test, plot_title) {
     ) +
     geom_text(
       aes(label = label), 
-      position = position_stack(vjust = 0.5)
+      position = position_stack(vjust = 0.5),
+      size = 10
     ) +
     facet_wrap(
       ~dataset, 

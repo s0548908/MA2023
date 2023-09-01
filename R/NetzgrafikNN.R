@@ -61,26 +61,16 @@ p<-visNetwork(nodes, edges,width = "100%", height = "800px") %>%
   visLegend() %>%
   visLayout(
     randomSeed = 3,
-    improvedLayout = TRUE
+    improvedLayout = F
   ) %>% 
   visEdges(arrows = "to") %>%
   visNodes(font = list(color = "black")) %>%
-  visOptions(
-    highlightNearest = list(
-      enabled = T, 
-      degree = 0,
-      hover=T), 
-    nodesIdSelection = F) %>%
   visPhysics(
     stabilization = list(
       enabled = TRUE, 
       iterations = 100
     ),
     solver = "forceAtlas2Based",
-    forceAtlas2Based = list(
-      gravityConstant = 0,
-      springLength = 50,
-      springConstant = 0.01)
   )
 
 print(p)

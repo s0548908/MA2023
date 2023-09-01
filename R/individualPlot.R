@@ -15,7 +15,7 @@ individualPlot<-function(shapData,id,referenzData){
     geom_col() +
     scale_fill_manual(values = c("TRUE" = "green", "FALSE" = "red")) +
     labs(
-      title = "Individual SHAP Values USER 125",
+      title = "Individual SHAP Values \n USER 125 ",
       x = "Variable",
       y = "SHAP Value"
     ) +
@@ -49,34 +49,30 @@ individualPlot<-function(shapData,id,referenzData){
     arrange(a)
   # Waterfall Plot
   p2<-ggplot() +
-    # Horizontale Linien
-    geom_segment(
+    annotate(
+      "segment",
+      x = base_x[-length(base_x)],
+      xend = base_x[-1],
+      y = base_y[-13],
+      yend = base_y[-13],
+      arrow = arrow(type = "closed", length = unit(0.05, "inches")),
+      color = ifelse(diff(c(base_x)) > 0, "green", "red"),
+      size = 2  # Hier die Linienstärke anpassen
+    )+
+    geom_text(
       aes(
         x = base_x[-length(base_x)], 
-        xend = base_x[-1], 
-        y = base_y[-12], 
-        yend = base_y[-12]
-      ), 
-      color = "black", size = 1.5) +
-    # Vertikale Linien
-    geom_segment(
-      aes(
-        x = base_x[-1], 
-        xend = base_x[-1],
-        y = base_y[-length(base_y)], 
-        yend = base_y[-1]), 
-      color = "black", 
-      size = 1.5) +
-    geom_point(
-      data = data.frame(
-        x = arrow_x, 
-        y = arrow_y, 
-        fill = ifelse(diff(c(base_x)) > 0, "green", "red")
-      ), 
-      aes(x = x, y = y, fill = fill), 
-      shape = 21, 
-      size = 5) +
-    scale_fill_identity() +
+        y = base_y[-13]+.2, 
+        label =
+          ifelse(
+            diff(c(base_x))>0,
+            paste("+", diff(c(base_x)) %>% round(3) %>% as.character()),
+            diff(c(base_x)) %>% round(3) %>% as.character()
+          )
+      ),
+      size=3.5,
+      color="gray"
+    )+
     scale_x_continuous(
       name = "Prognosewert", 
       breaks = tbl$a, 
