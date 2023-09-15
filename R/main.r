@@ -1,3 +1,22 @@
+packages <- c(
+  "fastDummies", 
+  "tidyverse",
+  "kableExtra","
+  visNetwork",
+  "gridExtra",
+  "keras",
+  "tensorflow",
+  "ggplot2",
+  "xgboost",
+  "SHAPforxgboost",
+  "caret"
+)
+
+for (package in packages) {
+  if (!require(package)) {
+    install.packages(package)
+  }
+}
 library(fastDummies)
 library(tidyverse)
 library(kableExtra)
@@ -8,7 +27,7 @@ library(tensorflow)
 library(ggplot2)
 library(xgboost)
 library(SHAPforxgboost)
-
+loadfonts(device = "pdf")
 # Daten laden und Dummy Codierung ####
 source("~/GitHub/MA2023/R/Datenvorbereitung.R")
 
@@ -35,9 +54,9 @@ source("~/GitHub/MA2023/R/NetzgrafikLR.R")
 ## Konfusionsplot #### 
 source("~/GitHub/MA2023/R/create_confusion_plot.R")
 confusion_plot(
-  pred.round.train.lr,
-  pred.round.test.lr,
-  "Konfusionsdaten für Trainings- und Testdaten - Logistische Regression"
+  pred_train = pred.round.train.lr,
+  pred_test = pred.round.test.lr,
+  plot_title = "Konfusionsdaten für Trainings- und Testdaten - Logistische Regression"
   )
 
 # Modelliergun NN ####
@@ -117,11 +136,17 @@ Abhängigkeitsplot(shap.train.xg,pred.round.train.xg,"cibil_score","XgBoost")
 source("~/GitHub/MA2023/R/individualPlot.R")
 individualPlot(shapData = shap.train.lr,id = 125,referenzData = tbltrain)
 individualPlot(shapData = shap.train.xg,id = 5,referenzData = tbltrain)
-individualPlot(shapData = shap.train.nn,id = 125,referenzData = tbltrain)
-individualPlot(shapData = shap.test.lr,id = 125,referenzData = norm.test)
-individualPlot(shapData = shap.test.xg,id = 125,referenzData = tbltest)
-individualPlot(shapData = shap.test.nn,id = 125,referenzData = norm.test)
-
+individualPlot(shapData = shap.train.nn,id = 2182,referenzData = tbltrain)
+individualPlot(shapData = shap.test.lr,id = 283,referenzData = tbltest,F)
+individualPlot(shapData = shap.test.xg,id = 283,referenzData = tbltest,F)
+individualPlot(shapData = shap.test.nn,id = 283,referenzData = tbltest,T)
+norm.test$loan_status[283]
+tbltest$loan_status[283]
+df_xg <- data.frame(
+  pred = pred.round.train.xg,
+  shap = shap.xg.sum.train,
+  Richtig = pred.round.train.xg == norm.train$loan_status
+)
 # Format für die Bezeichnung des Waterfall Plots
 f <- function(x) format(x, big.mark = ".", decimal.mark =",", scientific = FALSE)
 

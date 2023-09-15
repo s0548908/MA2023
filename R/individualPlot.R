@@ -2,7 +2,7 @@
 f <- function(x) format(x, big.mark = ".", decimal.mark =",", scientific = FALSE)
 
 
-individualPlot<-function(shapData,id,referenzData){
+individualPlot<-function(shapData,id,referenzData,nn){
   # Daten neu strukturieren
   data <- data.frame(
     variable = colnames(shapData[c(12,1:11)]), 
@@ -30,8 +30,10 @@ individualPlot<-function(shapData,id,referenzData){
   # Kummulierte Daten berechnen
   features <- colnames(shapData)[c(12, 1:11)]
   cumulative_values <- cumsum(shapData[id, c(12, 1:11)] %>% as.vector())
-  cumulative_values<-1/(1+exp(-cumulative_values))
-  
+  if (nn==F) {
+    cumulative_values<-1/(1+exp(-cumulative_values))
+  }
+
   # Kreise vorbereiten
   arrow_x <- cumulative_values
   arrow_y <- 12:1

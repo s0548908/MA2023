@@ -56,5 +56,13 @@ confusion_plot <- function(pred_train, pred_test, plot_title) {
       fill = "Status",
       title = plot_title
     ) +
-    theme_minimal()
+    theme_minimal()+
+    theme(
+      text = element_text(family = "Times New Roman",size = 20),
+      axis.title = element_text(family = "Times New Roman",size = 20),
+      axis.text = element_text(family = "Times New Roman",size = 20),
+      legend.title = element_text(family = "Times New Roman",size = 20),
+      legend.text = element_text(family = "Times New Roman",size = 20),
+      plot.title = element_text(family = "Times New Roman",size = 20)
+    )
 }

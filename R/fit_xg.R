@@ -52,11 +52,15 @@ eval_log<-data.frame(xgb_mod.s$evaluation_log)
 
 # Analyse des Trainingsprozesses
 p1<-ggplot(eval_log, aes(x = iter)) +
-  geom_line(aes(y = train_error, color = "Train Error"), size = 1) +
-  geom_point(aes(y = train_error, color = "Train Error"), size = 3) +
-  geom_line(aes(y = valid_error, color = "Validation Error"), size = 1) +
-  geom_point(aes(y = valid_error, color = "Validation Error"), size = 3) +
-  labs(title = "Training and Validation Error", x = "Iteration", y = "Error") +
-  scale_color_manual(values = c("Train Error" = "#0d421f", "Validation Error" = "orange")) +
+  geom_line(aes(y = train_error, color = "Trainingsfehler"), size = 1) +
+  geom_point(aes(y = train_error, color = "Trainingsfehler"), size = 3) +
+  geom_line(aes(y = valid_error, color = "Validierungsfehler"), size = 1) +
+  geom_point(aes(y = valid_error, color = "Validierungsfehler"), size = 3) +
+  labs(title = "Trainings- und Validierungsfehler", x = "Iteration", y = "Fehler") +
+  scale_color_manual(
+    name = "Fehlerart",
+    values = c("Trainingsfehler" = "#0d421f", "Validierungsfehler" = "orange"),
+    labels = c("Trainingsfehler", "Validierungsfehler")
+  ) +
   theme_minimal()
 print(p1)
