@@ -22,7 +22,7 @@ fit.nn <- function() {
   return(list(nn,history))
 }
 # Extrahieren der Daten
-results <- lapply(1, function(i) fit.nn())
+results <- lapply(1:15, function(i) fit.nn())
 nn.fits <- lapply(results, `[[`, 1)
 metrics.list <- lapply(results, `[[`, 2)
 
