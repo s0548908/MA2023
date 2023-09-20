@@ -85,7 +85,9 @@ xgb.plot.tree(model = xgb_mod.s, trees = 0, show_node_id = TRUE)
 
 # SHAPley Values ####
 source("~/GitHub/MA2023/R/ShapleyValues_LR.R")
-source("~/GitHub/MA2023/R/ShapleyValues_NN.R")
+# Alternative zur Berechnung der Shapeley Values (ohne Deeplift)
+#source("~/GitHub/MA2023/R/ShapleyValues_NN.R")
+source("~/GitHub/MA2023/R/ShapleyValues_NN_deeplift.R")
 data.frame(
   Vorhersage=pred.exakt.train.nn[1:5],
   "Summe SHAP + BIAS"= c(
@@ -135,11 +137,7 @@ Abhängigkeitsplot(shap.train.xg,pred.round.train.xg,"cibil_score","XgBoost")
 
 ## Individueller Plot ####
 source("~/GitHub/MA2023/R/individualPlot.R")
-individualPlot(shapData = shap.train.lr,id = 125,referenzData = tbltrain,nn = F)
-individualPlot(shapData = shap.train.xg,id = 5,referenzData = tbltrain,nn = F)
-individualPlot(shapData = shap.train.nn,id = 2182,referenzData = tbltrain,nn = F)
-individualPlot(shapData = shap.test.lr,id = 125,referenzData = tbltest,F)
-individualPlot(shapData = shap.test.xg,id = 125,referenzData = tbltest,F)
-individualPlot(shapData = shap.test.nn,id = 125,referenzData = tbltest,F)
-
+individualPlot(shapData = shap.test.lr,id = 125,referenzData = tbltest)
+individualPlot(shapData = shap.test.xg,id = 125,referenzData = tbltest)
+individualPlot(shapData = shap.test.nn,id = 125,referenzData = tbltest)
 

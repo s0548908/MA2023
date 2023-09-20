@@ -44,7 +44,7 @@ Abhängigkeitsplot<-function(data,pred,Merkmal,titel){
     geom_point(data = filtered_data %>% filter(richtig == "Falsche Vorhersage"), size = 4)  +
     scale_shape_manual(values = c("Richtige Vorhersage" = 3, "Falsche Vorhersage" = 17))  +
     geom_smooth(aes(group = 1), method = "loess", se = FALSE, color = "#0d421f")+
-    scale_color_manual(values = c("red", "black")) +
+    scale_color_manual(values = c("red", "#0d421f")) +
     scale_size_manual(
       values = c("Richtige Vorhersage" = 1, "Falsche Vorhersage" = 5)) +  
     labs(

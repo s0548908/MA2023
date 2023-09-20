@@ -64,5 +64,6 @@ confusion_plot <- function(pred_train, pred_test, plot_title) {
       legend.title = element_text(family = "Times New Roman",size = 20),
       legend.text = element_text(family = "Times New Roman",size = 20),
       plot.title = element_text(family = "Times New Roman",size = 20)
-    )
+    )+
+    scale_fill_manual(values = c("#0d421f", "orange"))
 }
