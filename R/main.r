@@ -28,7 +28,6 @@ library(tensorflow)
 library(ggplot2)
 library(xgboost)
 library(SHAPforxgboost)
-loadfonts(device = "pdf")
 # Daten laden und Dummy Codierung ####
 source("~/GitHub/MA2023/R/Datenvorbereitung.R")
 
@@ -87,40 +86,41 @@ xgb.plot.tree(model = xgb_mod.s, trees = 0, show_node_id = TRUE)
 # SHAPley Values ####
 source("~/GitHub/MA2023/R/ShapleyValues_LR.R")
 source("~/GitHub/MA2023/R/ShapleyValues_NN.R")
-df<-data.frame(
+data.frame(
   Vorhersage=pred.exakt.train.nn[1:5],
   "Summe SHAP + BIAS"= c(
-    sum(shap.train.nn[1,]),
-    sum(shap.train.nn[2,]),
-    sum(shap.train.nn[3,]),
-    sum(shap.train.nn[4,]),
-    sum(shap.train.nn[5,]))
-)
+    1/(1+exp(-sum(shap.train.nn[1,]))),
+    1/(1+exp(-sum(shap.train.nn[2,]))),
+    1/(1+exp(-sum(shap.train.nn[3,]))),
+    1/(1+exp(-sum(shap.train.nn[4,]))),
+    1/(1+exp(-sum(shap.train.nn[5,]))))
+) %>%
+  kable(format = "pipe")
 source("~/GitHub/MA2023/R/ShapleyValues_XG.R")
 
 ## Vergleich Summen PLot ####
 source("~/GitHub/MA2023/R/SummenShapleyPlot.R")
 df_xg <- data.frame(
   pred = pred.round.test.xg,
-  shap = shap.xg.sum.test,
+  shap = 1/(1+exp(-shap.xg.sum.test)),
   Richtig = pred.round.test.xg == norm.test$loan_status
 )
 df_nn <- data.frame(
   pred = pred.round.test.nn,
-  shap = shap.nn.sum.test,
+  shap = 1/(1+exp(-shap.nn.sum.test)),
   Richtig = pred.round.test.nn == norm.test$loan_status
 )
 
 df_lr <- data.frame(
   pred = pred.round.test.lr,
-  shap = shap.lr.sum.test,
+  shap = 1/(1+exp(-shap.lr.sum.test)),
   Richtig = pred.round.test.lr == norm.test$loan_status
 )
 p1 <- SummenShapleyPlot(df_xg, "XgBoost", "xg-Vorhersage",T)
 p2 <- SummenShapleyPlot(df_nn, "Neuronales Netz", "nn-Vorhersage",F)
 p3 <- SummenShapleyPlot(df_lr, "Logistische Regression", "lr-Vorhersage",F)
 grid.arrange(p3, p2, p1, ncol = 3)
-
+plot(pred.round.test.nn,1/(1+exp(-shap.nn.sum.test)))
 ## FeatureImportance ####
 source("~/GitHub/MA2023/R/FeatureimportancePlot.R")
 featureImportance.Plot(shap.train.lr,"Logistische Regression Featureimportance")
@@ -137,9 +137,9 @@ Abhängigkeitsplot(shap.train.xg,pred.round.train.xg,"cibil_score","XgBoost")
 source("~/GitHub/MA2023/R/individualPlot.R")
 individualPlot(shapData = shap.train.lr,id = 125,referenzData = tbltrain,nn = F)
 individualPlot(shapData = shap.train.xg,id = 5,referenzData = tbltrain,nn = F)
-individualPlot(shapData = shap.train.nn,id = 2182,referenzData = tbltrain,nn = T)
-individualPlot(shapData = shap.test.lr,id = 283,referenzData = tbltest,F)
-individualPlot(shapData = shap.test.xg,id = 283,referenzData = tbltest,F)
-individualPlot(shapData = shap.test.nn,id = 283,referenzData = tbltest,T)
+individualPlot(shapData = shap.train.nn,id = 2182,referenzData = tbltrain,nn = F)
+individualPlot(shapData = shap.test.lr,id = 125,referenzData = tbltest,F)
+individualPlot(shapData = shap.test.xg,id = 125,referenzData = tbltest,F)
+individualPlot(shapData = shap.test.nn,id = 125,referenzData = tbltest,F)
 
 

@@ -1,8 +1,7 @@
 # Format für die Bezeichnung des Waterfall Plots
 f <- function(x) format(x, big.mark = ".", decimal.mark =",", scientific = FALSE)
 
-
-individualPlot<-function(shapData,id,referenzData,nn){
+individualPlot<-function(shapData,id,referenzData){
   # Daten neu strukturieren
   data <- data.frame(
     variable = colnames(shapData[c(12,1:11)]), 
@@ -19,21 +18,28 @@ individualPlot<-function(shapData,id,referenzData,nn){
       x = "Variable",
       y = "SHAP Value"
     ) +
-    theme_minimal() +
+    theme_minimal()+
     theme(
+      axis.title.x = element_text(family = "LM Roman 10"),  
+      axis.title.y = element_text(family = "LM Roman 10"),  
+      axis.text.x = element_text(family = "LM Roman 10"),   
+      axis.text.y = element_text(family = "LM Roman 10"),   
+      strip.text = element_text(family = "LM Roman 10"),    
+      plot.title = element_text(family = "LM Roman 10"),
+      legend.text = element_text(family = "LM Roman 10"),   
+      legend.title = element_text(family = "LM Roman 10"),
       panel.grid.major = element_blank(), 
       panel.grid.minor = element_blank(),
       legend.position = "none"
-    ) +
-    coord_cartesian(ylim = c(-1.5, NA))
+    )+
+  coord_cartesian(ylim = c(-1.5, NA))
   
   # Kummulierte Daten berechnen
   features <- colnames(shapData)[c(12, 1:11)]
   cumulative_values <- cumsum(shapData[id, c(12, 1:11)] %>% as.vector())
-  if (nn==F) {
-    cumulative_values<-1/(1+exp(-cumulative_values))
-  }
-
+  cumulative_values<-1/(1+exp(-cumulative_values))
+  
+  
   # Kreise vorbereiten
   arrow_x <- cumulative_values
   arrow_y <- 12:1
@@ -59,7 +65,7 @@ individualPlot<-function(shapData,id,referenzData,nn){
       yend = base_y[-13],
       arrow = arrow(type = "closed", length = unit(0.05, "inches")),
       color = ifelse(diff(c(base_x)) > 0, "green", "red"),
-      size = 2  # Hier die Linienstärke anpassen
+      size = .2  # Hier die Linienstärke anpassen
     )+
     geom_text(
       aes(
