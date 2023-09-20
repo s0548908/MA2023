@@ -53,6 +53,7 @@ Die folgende Tabelle listet die in diesem Projekt verwendeten R-Pakete und ihre 
 | gridExtra    | 2.3      | Ermöglicht die Anordnung von ggplot2, lattice, tableGrob und anderen Grid-basierten Plots in einer anpassbaren Grid-Layout. |
 | ggplot2      | 3.4.3    | Ein System zur Erstellung von grafisch ansprechenden Datenvisualisierungen. |
 | xgboost      | 1.7.5.1  | Ein effizientes und skalierbares Implementierung von Gradient Boosting. |
+| innsight     | 1.7.5.1  | Analyse der neuronalen Netze mittels Deeplift |
 
 Stellen Sie sicher, dass Sie alle diese Pakete installiert und geladen haben, bevor Sie versuchen, die App oder die Skripte in diesem Repository auszuführen. Die Installation kann mit dem Befehl `install.packages("package_name")` durchgeführt werden, wobei "package_name" durch den Namen des jeweiligen Pakets ersetzt wird.
 
