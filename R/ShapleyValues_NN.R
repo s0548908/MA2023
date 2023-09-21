@@ -1,4 +1,4 @@
-# SHAP NN Deeplift Import
+# SHAP NN Import
 shap <- reticulate::import('shap')
 explainers <- lapply(nn.fits, function(model) {
   shap$DeepExplainer(
